@@ -35,6 +35,7 @@ module Padrino
           case kind
           when :css then 'assets'
           when :js  then 'assets'
+          when :image then 'assets'
           else kind.to_s
           end
         end
@@ -78,6 +79,31 @@ module Padrino
 
         extra_paths.each do |sprocket_path|
           @assets.append_path sprocket_path
+        end
+
+        # put public assets in sprockets path
+        %w{images stylesheets javascripts}.each do |dir|
+          public_path = File.join(Padrino.root, "public", dir)
+          if File.exist?(public_path)
+            @assets.append_path File.join(Padrino.root, "public", dir)
+          end
+        end
+
+        # put bootstrap assets in sprockets path
+        if defined?(::Bootstrap)
+          %w{fonts stylesheets javascripts}.each do |dir|
+            bootstrap_path = File.join(::Bootstrap.assets_path, dir)
+            unless extra_paths.include?(bootstrap_path)
+              @assets.append_path bootstrap_path
+            end
+          end
+
+          # this is required to serve bootstrap fonts
+          @assets.context_class.class_eval do
+            def asset_path(path, options = {})
+              path
+            end
+          end
         end
       end
 
