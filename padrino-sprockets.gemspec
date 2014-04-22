@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
     'lib/padrino/sprockets-version.rb',
     'lib/padrino/sprockets.rb'
     ]
-  gem.add_dependency 'sprockets'
+  gem.add_dependency 'sprockets', '~> 2.12.0'
 end
