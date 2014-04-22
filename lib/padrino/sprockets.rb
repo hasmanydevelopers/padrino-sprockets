@@ -35,7 +35,7 @@ module Padrino
           case kind
           when :css then 'assets'
           when :js  then 'assets'
-          when :image then 'assets'
+          when :images then 'assets'
           else kind.to_s
           end
         end
